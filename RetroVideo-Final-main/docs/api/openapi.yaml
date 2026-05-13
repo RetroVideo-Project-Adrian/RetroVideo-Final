@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  title: API de Gestión de Videoclub (RetroVideo)
+  description: API REST para el sistema de gestión del videoclub. Permite registrar alquileres de películas y videojuegos para los socios.
+  version: 1.2.0
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Servidor backend local (Java)
+
+paths:
+  /alquileres:
+    get:
+      summary: Obtener todos los alquileres
+      description: Devuelve una lista de todos los alquileres activos (películas y videojuegos).
+      responses:
+        '200':
+          description: Lista de alquileres obtenida con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alquiler'
+    post:
+      summary: Registrar un nuevo alquiler
+      description: Crea un nuevo alquiler vinculando a un socio con una película o un videojuego.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlquilerInput'
+      responses:
+        '201':
+          description: Alquiler registrado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alquiler'
+        '400':
+          description: Error de validación (ej. socio no existe o producto no encontrado).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /alquileres/{id}:
+    get:
+      summary: Obtener un alquiler por ID
+      description: Devuelve los detalles de un alquiler específico.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Identificador único del alquiler
+      responses:
+        '200':
+          description: Detalles del alquiler.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alquiler'
+        '404':
+          description: Alquiler no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Alquiler:
+      type: object
+      description: Modelo completo de la entidad Alquiler (respuesta del servidor).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          example: 45
+        dni_socio:
+          type: string
+          readOnly: true
+          example: "12345678Z"
+        nombre_producto:
+          type: string
+          readOnly: true
+          description: Título de la película o videojuego alquilado.
+          example: "Interstellar"
+        tipo_producto:
+          type: string
+          readOnly: true
+          example: "Película"
+        fecha_alquiler:
+          type: string
+          format: date
+          example: "2026-05-10"
+        fecha_devolucion:
+          type: string
+          format: date
+          description: Fecha calculada automáticamente (+3 días).
+          example: "2026-05-13"
+
+    AlquilerInput:
+      type: object
+      description: Modelo de entrada para crear un alquiler desde el frontend.
+      required:
+        - dni_socio
+      properties:
+        dni_socio:
+          type: string
+          example: "12345678Z"
+        id_pelicula:
+          type: integer
+          description: Enviar este campo si se alquila una película.
+          example: 1
+        id_videojuego:
+          type: integer
+          description: Enviar este campo si se alquila un videojuego.
+          example: null
+
+    Error:
+      type: object
+      description: Modelo genérico para respuestas de error.
+      properties:
+        error:
+          type: string
+          example: "Datos de entrada inválidos"
+        detalles:
+          type: array
+          items:
+            type: object
+            properties:
+              campo:
+                type: string
+                example: "dni_socio"
+              mensaje:
+                type: string
+                example: "No existe ningún socio registrado con este DNI"

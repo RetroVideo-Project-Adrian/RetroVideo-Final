@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroVideo | Tu Videoclub Moderno</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <a href="#" class="logo"><i class="fa-solid fa-play"></i> Retro<span>Video</span></a>
+    <div class="nav-links">
+        <a href="#peliculas">Películas</a>
+        <a href="#videojuegos">Videojuegos</a>
+        <a href="#socio">Hazte Socio</a>
+    </div>
+</nav>
+
+<header class="hero">
+    <h1>El entretenimiento<br><span>llevado al siguiente nivel</span></h1>
+    <p>Sistema avanzado de reservas para socios. Explora nuestro catálogo de películas de culto y videojuegos de última generación.</p>
+    <button id="btn-registro" class="btn"><i class="fa-solid fa-user-plus"></i> Registrarme como Socio</button>
+</header>
+
+<section id="peliculas" class="catalog-section">
+    <h2 class="section-title">Películas Destacadas</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fa-solid fa-film"></i>
+            <h3>Interstellar</h3>
+            <p class="meta">Dir: Christopher Nolan | Año: 2014</p>
+            <button class="btn-reserva btn-outline">Reservar</button>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-ticket"></i>
+            <h3>Parasite</h3>
+            <p class="meta">Dir: Bong Joon-ho | Año: 2019</p>
+            <button class="btn-reserva btn-outline">Reservar</button>
+        </div>
+        <div class="card">
+            <i class="fa-solid fa-video"></i>
+            <h3>The Whale</h3>
+            <p class="meta">Dir: Darren Aronofsky | Año: 2022</p>
+            <button class="btn-reserva btn-outline">Reservar</button>
+        </div>
+    </div>
+</section>
+
+<section id="videojuegos" class="catalog-section">
+    <h2 class="section-title">Nuevos Videojuegos</h2>
+    <div class="grid">
+        <div class="card">
+            <i class="fa-solid fa-gamepad"></i>
+            <h3>Zelda: TotK</h3>
+            <p class="meta">Plataforma: Switch | Año: 2023</p>
+            <button class="btn-reserva btn-outline">Reservar</button>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-playstation"></i>
+            <h3>Elden Ring</h3>
+            <p class="meta">Plataforma: PS5 / PC | Año: 2022</p>
+            <button class="btn-reserva btn-outline">Reservar</button>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Proyecto Intermodular UP6 - LMSGI | Adrián Martínez &copy; 2026</p>
+    <p style="margin-top: 10px;">IES Severo Ochoa - 1º CFS</p>
+</footer>
+
+<script>
+    // Alerta para el botón de Registro
+    document.getElementById('btn-registro').addEventListener('click', function() {
+        alert('MÓDULO DE SOCIOS: Redirigiendo a la pasarela de registro. En la v2.0 este botón conectará con el endpoint POST /socios de la API diseñada en la UP9.');
+    });
+
+    // Alerta para todos los botones de Reservar
+    const botonesReserva = document.querySelectorAll('.btn-reserva');
+
+    botonesReserva.forEach(boton => {
+        boton.addEventListener('click', function() {
+            const titulo = this.parentElement.querySelector('h3').innerText;
+            alert('SOLICITUD DE ALQUILER: ' + titulo + '\n\nEl sistema está preparado para enviar un JSON con el ID de este producto y el DNI del socio a la API REST de RetroVideo.');
+        });
+    });
+</script>
+
+</body>
+</html>
